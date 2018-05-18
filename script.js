@@ -23,15 +23,45 @@ var months;
     months[months["November"] = 10] = "November";
     months[months["December"] = 11] = "December";
 })(months || (months = {}));
-var earthPhysics;
-(function (earthPhysics) {
-    earthPhysics[earthPhysics["gravity"] = 9.81] = "gravity";
-    earthPhysics[earthPhysics["c"] = Math.pow(3.88, 8)] = "c";
-    earthPhysics[earthPhysics["weight"] = 1] = "weight";
-})(earthPhysics || (earthPhysics = {}));
+// enum earthPhysics {
+//     gravity = 9.81,
+//     c = Math.pow(3.88,8),
+//     weight = 1
+// }
 //html elements
 var pTodayDate = document.getElementById("p--today-date");
-var button = document.getElementById("button--birthday");
+var buttonBirthday = document.getElementById("button--birthday");
+var pBirthdayMessage = document.getElementById("p--birthday-message");
+var inputDatePicker = document.getElementById("input--date-picker");
 //today as a date
 var today = new Date();
 pTodayDate.innerHTML = "Today is " + days[today.getDay()] + " " + months[today.getMonth()] + " " + today.getDate() + ", " + today.getFullYear();
+function makeDateString(inputDate) {
+    //if today is user's birthday
+    if ((inputDate.getDate() === today.getDate()) && (inputDate.getMonth() === today.getMonth())) {
+        return "Happy birthday!";
+    }
+    //today is not their birthday
+    var thisYearBirthday = new Date();
+    thisYearBirthday.setDate(inputDate.getDate());
+    thisYearBirthday.setFullYear(today.getFullYear());
+    thisYearBirthday.setMonth(today.getMonth());
+    console.log(today);
+    console.log(thisYearBirthday);
+    return "Your birthday is on " + days[thisYearBirthday.getDay()] + " " + months[inputDate.getMonth()] + " " + inputDate.getDate() + ", " + today.getFullYear();
+}
+buttonBirthday.onclick = function () {
+    var userBday = inputDatePicker.value;
+    var userBdayDate = new Date(userBday);
+    pBirthdayMessage.innerHTML = makeDateString(userBdayDate);
+    // console.log(birthday);
+    // console.log(today);
+    // birthdayMessage(birthday, bdMessage);
+    // function birthdayMessage(date : Date, message : string) {
+    //     if (date.getDate() === today.getDate()) {
+    //         result.innerHTML = "Happy birthday!";
+    //     } else {
+    //         result.innerHTML = bdMessage + ;
+    //     }
+    // }
+};
